@@ -52,7 +52,7 @@ export const notesReducer = (state = { notes: [] }, action) => {
     case GET_NOTES_REQUEST:
       return { loading: true };
     case GET_NOTES_SUCCESS:
-      return { loading: false, success: true, note: action.payload };
+      return { loading: false, success: true, notes: action.payload };
     case GET_NOTES_FAIL:
       return { loading: false, success: false, error: action.payload };
     default:
