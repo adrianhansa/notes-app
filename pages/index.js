@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
-import { getNotes } from "../redux/actions/noteActions";
+import { getNotes, deleteNote } from "../redux/actions/noteActions";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -26,8 +26,14 @@ export default function Home() {
         {notes &&
           notes.map((note) => {
             return (
-              <p>
+              <p key={note.title}>
                 {note.title} {note.description}
+                <span
+                  style={{ cursor: "pointer" }}
+                  onClick={() => dispatch(deleteNote(note._id))}
+                >
+                  x
+                </span>
               </p>
             );
           })}

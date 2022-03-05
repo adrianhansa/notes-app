@@ -25,6 +25,8 @@ export const addNote = ({ title, description }) => async (dispatch) => {
       description,
     });
     dispatch({ type: ADD_NOTE_SUCCESS, payload: data });
+    const result = await axios.get(`http://localhost:3000/api/notes`);
+    dispatch({ type: GET_NOTES_SUCCESS, payload: result.data });
   } catch (error) {
     dispatch({
       type: ADD_NOTE_FAIL,
@@ -60,6 +62,8 @@ export const updateNote = (id, { title, description }) => async (dispatch) => {
       description,
     });
     dispatch({ type: UPDATE_NOTE_SUCCESS, payload: data });
+    const result = await axios.get(`http://localhost:3000/api/notes`);
+    dispatch({ type: GET_NOTES_SUCCESS, payload: result.data });
   } catch (error) {
     dispatch({
       type: UPDATE_NOTE_FAIL,
@@ -94,6 +98,8 @@ export const deleteNote = (id) => async (dispatch) => {
       `http://localhost:3000/api/notes/${id}`
     );
     dispatch({ type: DELETE_NOTE_SUCCESS, payload: data });
+    const result = await axios.get(`http://localhost:3000/api/notes`);
+    dispatch({ type: GET_NOTES_SUCCESS, payload: result.data });
   } catch (error) {
     dispatch({
       type: DELETE_NOTE_FAIL,
