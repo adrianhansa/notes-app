@@ -2,8 +2,24 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Head from "next/head";
 import Image from "next/image";
+import Link from "next/link";
 import styles from "../styles/Home.module.css";
 import { getNotes, deleteNote } from "../redux/actions/noteActions";
+import {
+  Typography,
+  Card,
+  CardActions,
+  CardMedia,
+  CardContent,
+  AppBar,
+  CssBaseline,
+  Grid,
+  Toolbar,
+  Container,
+  Button,
+  ButtonGroup,
+} from "@material-ui/core";
+import { PhotoCamera } from "@mui/icons-material";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -20,23 +36,43 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>Welcome to Notes App</h1>
-        {loading && <p>Loading...</p>}
-        {error && <p style={{ color: "red" }}>{error}</p>}
-        {notes &&
-          notes.map((note) => {
-            return (
-              <p key={note.title}>
-                {note.title} {note.description}
-                <span
-                  style={{ cursor: "pointer" }}
-                  onClick={() => dispatch(deleteNote(note._id))}
-                >
-                  x
-                </span>
-              </p>
-            );
-          })}
+        <Typography className={styles.title} variant="h2">
+          Welcome to Notes App
+        </Typography>
+        <Button>
+          <Link href="/add-note">Add Note</Link>
+        </Button>
+        <Grid container justifyContent="center" spacing={5}>
+          {loading && <Typography variant="body1">Loading...</Typography>}
+          {error && <Typography style={{ color: "red" }}>{error}</Typography>}
+          {notes &&
+            notes.map((note) => {
+              return (
+                <Grid item key={note._id}>
+                  <Card elevation={10} variant="elevation">
+                    <CardContent>
+                      <Typography variant="h5">{note.title}</Typography>
+                      <Typography variant="body2">
+                        {note.description}
+                      </Typography>
+                    </CardContent>
+                    <CardActions>
+                      <Button variant="container" color="primary">
+                        Edit
+                      </Button>
+                      <Button
+                        onClick={() => dispatch(deleteNote(note._id))}
+                        variant="contained"
+                        color="secondary"
+                      >
+                        Delete
+                      </Button>
+                    </CardActions>
+                  </Card>
+                </Grid>
+              );
+            })}
+        </Grid>
       </main>
 
       <footer className={styles.footer}>

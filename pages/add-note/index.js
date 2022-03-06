@@ -14,7 +14,7 @@ const index = () => {
   });
   return (
     <div>
-      <Typography variant="h3">Add Note</Typography>
+      <Typography variant="h3">Add Note----</Typography>
       <Formik
         validationSchema={validationSchema}
         initialValues={{ title: "", description: "" }}
