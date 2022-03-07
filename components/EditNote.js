@@ -1,23 +1,19 @@
-import { useState } from "react";
 import * as yup from "yup";
-import { addNote } from "../../redux/actions/noteActions";
+import { updateNote } from "../redux/actions/noteActions";
 import { useDispatch } from "react-redux";
 import { Formik } from "formik";
-import { useRouter } from "next/router";
 import {
-  Typography,
   Button,
   TextField,
+  TextareaAutosize,
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
 } from "@material-ui/core";
 
-const index = ({ open, handleClose }) => {
+const index = ({ open, handleClose, note }) => {
   const dispatch = useDispatch();
-  const router = useRouter();
   const validationSchema = yup.object({
     title: yup.string().required("Please enter a title"),
     description: yup.string().required("Please enter a description"),
@@ -26,26 +22,32 @@ const index = ({ open, handleClose }) => {
     <Dialog open={open} onClose={handleClose}>
       <Formik
         validationSchema={validationSchema}
-        initialValues={{ title: "", description: "" }}
+        initialValues={{ title: note.title, description: note.description }}
         onSubmit={(values) => {
-          dispatch(addNote(values));
-          // router.push("/");
+          dispatch(updateNote(note._id, values));
           handleClose();
         }}
       >
         {(props) => {
           return (
             <form onSubmit={props.handleSubmit}>
-              <DialogTitle>Add Note</DialogTitle>
+              <DialogTitle>Edit Note</DialogTitle>
               <DialogContent>
-                <input
+                <TextField
+                  autoFocus
+                  label="Note Title"
                   type="text"
+                  fullWidth
+                  variant="outlined"
                   value={props.values.title}
                   onChange={props.handleChange("title")}
                   onBlur={props.handleBlur("title")}
                 />
                 {props.touched && <p>{props.errors.title}</p>}
-                <textarea
+                <TextareaAutosize
+                  minRows={3}
+                  placeholder="Note description"
+                  style={{ width: 240 }}
                   value={props.values.description}
                   onChange={props.handleChange("description")}
                   onBlur={props.handleBlur("description")}
@@ -54,7 +56,7 @@ const index = ({ open, handleClose }) => {
               </DialogContent>
               <DialogActions>
                 <Button type="submit" variant="outlined" color="success">
-                  Save
+                  Update Note
                 </Button>
                 <Button
                   variant="outlined"

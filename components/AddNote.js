@@ -5,6 +5,7 @@ import { Formik } from "formik";
 import {
   Button,
   TextField,
+  CssBaseline,
   TextareaAutosize,
   Dialog,
   DialogActions,
@@ -20,6 +21,7 @@ const index = ({ open, handleClose }) => {
   });
   return (
     <Dialog open={open} onClose={handleClose}>
+      <CssBaseline />
       <Formik
         validationSchema={validationSchema}
         initialValues={{ title: "", description: "" }}
@@ -35,7 +37,7 @@ const index = ({ open, handleClose }) => {
               <DialogTitle>Add Note</DialogTitle>
               <DialogContent>
                 <TextField
-                  autofocus
+                  autoFocus
                   label="Note Title"
                   type="text"
                   fullWidth
