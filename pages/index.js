@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Head from "next/head";
 import Image from "next/image";
@@ -20,8 +20,12 @@ import {
   ButtonGroup,
 } from "@material-ui/core";
 import { PhotoCamera } from "@mui/icons-material";
+import AddNote from "../components/AddNote";
 
 export default function Home() {
+  const [open, setOpen] = useState(false);
+  const handleClose = () => setOpen(false);
+  const handleClickOpen = () => setOpen(true);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getNotes());
@@ -39,9 +43,10 @@ export default function Home() {
         <Typography className={styles.title} variant="h2">
           Welcome to Notes App
         </Typography>
-        <Button>
-          <Link href="/add-note">Add Note</Link>
+        <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+          Add Note
         </Button>
+        <AddNote open={open} handleClose={handleClose} />
         <Grid container justifyContent="center" spacing={5}>
           {loading && <Typography variant="body1">Loading...</Typography>}
           {error && <Typography style={{ color: "red" }}>{error}</Typography>}
@@ -57,7 +62,7 @@ export default function Home() {
                       </Typography>
                     </CardContent>
                     <CardActions>
-                      <Button variant="container" color="primary">
+                      <Button variant="contained" color="primary">
                         Edit
                       </Button>
                       <Button

@@ -1,23 +1,19 @@
-import { useState } from "react";
 import * as yup from "yup";
-import { addNote } from "../../redux/actions/noteActions";
+import { addNote } from "../redux/actions/noteActions";
 import { useDispatch } from "react-redux";
 import { Formik } from "formik";
-import { useRouter } from "next/router";
 import {
-  Typography,
   Button,
   TextField,
+  TextareaAutosize,
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
 } from "@material-ui/core";
 
 const index = ({ open, handleClose }) => {
   const dispatch = useDispatch();
-  const router = useRouter();
   const validationSchema = yup.object({
     title: yup.string().required("Please enter a title"),
     description: yup.string().required("Please enter a description"),
@@ -38,14 +34,21 @@ const index = ({ open, handleClose }) => {
             <form onSubmit={props.handleSubmit}>
               <DialogTitle>Add Note</DialogTitle>
               <DialogContent>
-                <input
+                <TextField
+                  autofocus
+                  label="Note Title"
                   type="text"
+                  fullWidth
+                  variant="outlined"
                   value={props.values.title}
                   onChange={props.handleChange("title")}
                   onBlur={props.handleBlur("title")}
                 />
                 {props.touched && <p>{props.errors.title}</p>}
-                <textarea
+                <TextareaAutosize
+                  minRows={3}
+                  placeholder="Note description"
+                  style={{ width: 240 }}
                   value={props.values.description}
                   onChange={props.handleChange("description")}
                   onBlur={props.handleBlur("description")}
